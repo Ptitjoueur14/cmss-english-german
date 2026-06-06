@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 
 \usepackage[a4paper, total={6in, 9in}]{geometry}
 \usepackage{graphicx}
@@ -14,13 +14,17 @@
 \usepackage{booktabs}
 \usepackage{subcaption}
 \usepackage{float}
+\usepackage[style=authoryear]{biblatex}
+
+\addbibresource{bibliography.bib}
 
 \begin{document}
 \large
 \pagestyle{fancy}
-\fancyhead[LH]{TU Graz}
-\fancyhead[CH]{Computational Modelling of Social Systems}
-\fancyhead[RH]{Final Project Report}
+\fancyhead[LH]{\small{TU Graz}}
+\fancyhead[CH]{\small{Computational Modelling of Social Systems}}
+\fancyhead[RH]{\small{Final Project Report}}
+\setlength{\headheight}{14pt}
 
 % --- REAL PDF BEGINNING
 
@@ -68,20 +72,28 @@
 
 \section{Introduction}
 
-‘Mindset’, ‘Catcalling’ and ‘framen’ are only a few examples of English loanwords published in the latest edition of the German Duden dictionary (2024). Anglicisms and the influence of English words on the German language has been extensively studied, going back to Carsten’s (1965) work and now with the increased use of social media, the way we as a society communicate, share information and interact with each other has changed and shows no sign of stopping.
+‘Mindset’, ‘Catcalling’ and ‘framen’ are only a few examples of English loanwords published in the latest edition of the German \textcite{duden2024}. Anglicisms and the influence of English words on the German language have been extensively studied, going back to \citeauthor{carstensen1965}'s \parencite*{carstensen1965} work, and now, with the increased use of social media, the way we as a society communicate, share information, and interact with each other has changed and shows no sign of stopping.
  
-Poplack and Sankoff (1984) have researched and argued that loanword adoption is not merely a linguistic phenomenon, but a social one which is driven by community and communication patterns. Looking at this from the German language perspective, previous work has focused more on corpus-based research and looking at how and what kind of English words are borrowed or adopted into the German language (Coats, 2019). However, these approaches have mainly captured the outcomes of adoption rather than the social dynamics driving it.
+\textcite{poplack1984} have researched and argued that loanword adoption is not merely a linguistic phenomenon, but a social one which is driven by community and communication patterns. Looking at this from the German language perspective, previous work has focused more on corpus-based research and looking at how and what kind of English words are borrowed or adopted into the German language \parencite{coats2019}. However, these approaches have mainly captured the outcomes of adoption rather than the social dynamics driving it.
 
-More recently, sociolinguistic dynamics of diffusion on social media platforms has been examined (Würschinger, 2021) giving light to the fact that network structure plays a role in determining whether new loanwords spread broadly or remain within a specific community. While this research was based solely on a single social media platform and not in the German context, this paper wants to answer the following research question: Does cross-platform social media usage accelerate the spread of English loanwords in German social media networks?
+More recently, sociolinguistic dynamics of diffusion on social media platforms have been examined \parencite{wuerschinger2021}, giving light to the fact that network structure plays a role in determining whether new loanwords spread broadly or remain within a specific community. While this research was based solely on a single social media platform and not in the German context, this paper wants to answer the following research question: Does cross-platform social media usage accelerate the spread of English loanwords in German social media networks?
 
-By implementing an agent-based model (ABM), we want to better understand how using multiple social media platforms facilitates the spread of new English loanwords from a computational approach. We draw from both Baronchelli et al.’s (2006) model of communication and Granovetter’s (1973) threshold model of collective behavior to simulate adoption as a social contagion process where agent-level attributes such as varying levels of English proficiency and different generational groups are used to examine the spread and diffusion of anglicisms. 
+By implementing an agent-based model (ABM), we want to better understand how using multiple social media platforms facilitates the spread of new English loanwords from a computational approach. We draw from both \citeauthor{baronchelli2006}'s \parencite*{baronchelli2006} model of communication and \citeauthor{granovetter1973}'s \parencite*{granovetter1973} threshold model of collective behavior to simulate adoption as a social contagion process where agent-level attributes such as varying levels of English proficiency and different generational groups are used to examine the spread and diffusion of anglicisms. 
 
 “Paragraph on findings still missing”
 
 
 \section{Methodology}
 
-Text here
+To help us find the answer to our research question, we implemented an agent-based model using the Mesa framework for Python. In our model, each agent represents a German-speaking social media user with multiple different attributes that influence their adoption rate of a new English word. These attributes are the following: age group, English proficiency, main topic of interest, and used social media platforms. For the age group attribute, each agent belongs to exactly one of three categories: Gen Z, Millennial, or Boomer. The English proficiency has three values, ranging from low to high. Each agent also has a primary area of interest from the Tech, Fashion, Gaming, and Nature categories. Finally, all agents are part of one or multiple social media platforms, such as Reddit, TikTok, and Instagram. This gives us the ability to have agents that act as bridges between different platforms, so words used on only one platform have a chance to be adopted by other platforms.
+
+Our simulated social media network is represented by an undirected network where each agent is added as a node and edges between them represent possible contact with the language used by another user. It is only possible for two agents to be connected if they share one or more social media platforms, because we assume that interaction between social media users happens mostly on the same platform. Agents who are active on multiple social media platforms are able to have connections to agents from multiple platforms and enable cross-platform spread of language. Each pair of agents with at least one platform in common has a fixed connection probability, which is set to 0.2. Our resulting network contains clusters based on social media platforms, with multi-platform users acting as links between those clusters.    
+
+The adoption of an English word in our model happens through social contagion. At the start of our simulation, we select a fixed number of random agents as our initial adopters. These agents simulate users who are already using the English word. During each simulation, all previous non-adopters evaluate if the word gets adopted in this round. The adoption probability is influenced by multiple different factors. We start with a base probability of 0.05, and if the agent has neighbors, the fraction of neighbors that have already adopted the word gets calculated, multiplied by 0.5, and added to the agent's adoption probability. The age group of the agent further changes the probability by adding 0.15 for Gen Z, 0.05 for Millennials, and nothing for Boomers. Furthermore, the agent's English proficiency adds another 0.02 for each level. The final adoption rate is capped at 1, which equates to 100\% chance of adoption. If a randomly drawn decimal number between 0 and 1 is smaller than the adoption probability of the agent, the agent adopts the word and remains an adopter for the rest of the simulation.
+
+Our main outcome after each simulated round is the global adoption rate, which describes the percentage of agents that have adopted the English word after the last round. This value gets collected after each round of simulations to then compare it to other simulations of our model using different start parameters.
+
+"Here goes the description of influencer vs normal of our model but i'll wait until i know the values used in our simulation"
 
 \section{Results}
 
@@ -94,8 +106,8 @@ Insert 1 or 2 plots for visualisation
 
 \section{Conclusion}
 
-\section{References}
 
-text here
+\section{References}
+\printbibliography[heading=none]
 
 \end{document}
