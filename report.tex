@@ -41,14 +41,14 @@
         
         \vspace{.5cm} \Large Computational Modelling of Social Systems
         
-        \vspace{.5cm} Group 31
+        \vspace{.5cm} Group XX
 
         \vspace{1cm}
 
-        \Large Harriet Elisabeth Marie Jansen\\
-        Liam Thomas Chevassus\\
-        Christian Hirschbichler\\
-        Badder Ul Zaman Qamar
+        \Large Name Surname\\
+        Name Surname \\
+        Name Surname\\
+        Name Surname
         
         \vspace{3cm}
         
@@ -87,17 +87,46 @@ By implementing an agent-based model (ABM), we want to better understand how usi
 
 To help us find the answer to our research question, we implemented an agent-based model using the Mesa framework for Python. In our model, each agent represents a German-speaking social media user with multiple different attributes that influence their adoption rate of a new English word. These attributes are the following: age group, English proficiency, main topic of interest, and used social media platforms. For the age group attribute, each agent belongs to exactly one of three categories: Gen Z, Millennial, or Boomer. The English proficiency has three values, ranging from low to high. Each agent also has a primary area of interest from the Tech, Fashion, Gaming, and Nature categories. Finally, all agents are part of one or multiple social media platforms, such as Reddit, TikTok, and Instagram. This gives us the ability to have agents that act as bridges between different platforms, so words used on only one platform have a chance to be adopted by other platforms.
 
-Our simulated social media network is represented by an undirected network where each agent is added as a node and edges between them represent possible contact with the language used by another user. It is only possible for two agents to be connected if they share one or more social media platforms, because we assume that interaction between social media users happens mostly on the same platform. Agents who are active on multiple social media platforms are able to have connections to agents from multiple platforms and enable cross-platform spread of language. Each pair of agents with at least one platform in common has a fixed connection probability, which is set to 0.2. Our resulting network contains clusters based on social media platforms, with multi-platform users acting as links between those clusters.    
+Our simulated social media network is represented by an undirected network where each agent is added as a node and edges between them represent possible contact with the language used by another user. It is only possible for two agents to be connected if they share one or more social media platforms, because we assume that interaction between social media users happens mostly on the same platform. Agents who are active on multiple social media platforms are able to have connections to agents from multiple platforms and enable cross-platform spread of language. Each pair of agents with at least one platform in common has a fixed connection probability, which is set to 0.01. Our resulting network contains clusters based on social media platforms, with multi-platform users acting as links between those clusters.    
 
-The adoption of an English word in our model happens through social contagion. At the start of our simulation, we select a fixed number of random agents as our initial adopters. These agents simulate users who are already using the English word. During each simulation, all previous non-adopters evaluate if the word gets adopted in this round. The adoption probability is influenced by multiple different factors. We start with a base probability of 0.05, and if the agent has neighbors, the fraction of neighbors that have already adopted the word gets calculated, multiplied by 0.5, and added to the agent's adoption probability. The age group of the agent further changes the probability by adding 0.15 for Gen Z, 0.05 for Millennials, and nothing for Boomers. Furthermore, the agent's English proficiency adds another 0.02 for each level. The final adoption rate is capped at 1, which equates to 100\% chance of adoption. If a randomly drawn decimal number between 0 and 1 is smaller than the adoption probability of the agent, the agent adopts the word and remains an adopter for the rest of the simulation.
+The adoption of an English word in our model happens through social contagion. At the start of our simulation, we select a fixed number of random agents as our initial adopters. These agents simulate users who are already using the English word. During each simulation, all previous non-adopters evaluate if the word gets adopted in this round. The adoption probability is influenced by multiple different factors. We start with a base probability of 0.001, and if the agent has neighbors, the fraction of neighbors that have already adopted the word gets calculated, multiplied by 0.1, and added to the agent's adoption probability. The age group of the agent further changes the probability by adding 0.01 for Gen Z, 0.005 for Millennials, and nothing for Boomers. Furthermore, the agent's English proficiency adds another 0.001 for each level. The final adoption rate is capped at 1, which equates to 100\% chance of adoption. If a randomly drawn decimal number between 0 and 1 is smaller than the adoption probability of the agent, the agent adopts the word and remains an adopter for the rest of the simulation.
 
 Our main outcome after each simulated round is the global adoption rate, which describes the percentage of agents that have adopted the English word after the last round. This value gets collected after each round of simulations to then compare it to other simulations of our model using different start parameters.
 
-"Here goes the description of influencer vs normal of our model but i'll wait until i know the values used in our simulation"
+To compare different conditions at the start of our simulation, we implemented two different scenarios. In the first one, our initial adopters are selected randomly from all of our agents from different social media platforms. This should represent a condition in which the English word is used by normal users who do not have a position of high network connectivity. In this scenario, we also test how the number of initial adopters influences the speed of the spread and overall adoption of the word. The second scenario has one initial adopter, whom we call an influencer. The influencer is active on all three social media platforms and has a higher connection probability of 0.1 instead of 0.01 for regular agents. This represents a user who has a high connection rate and can share the English word on multiple platforms at the same time. In the end, we want to compare the two conditions to evaluate if we can answer our research question with our model.
 
 \section{Results}
 
-Insert 1 or 2 plots for visualisation
+To evaluate the spread and adoption of English words in our simulated social media network, we ran our model for 100 rounds with 1000 agents and analyzed adoption rates over time across different scenarios. First, we examined how the number of initial adopters affects the overall spread and adoption rate of our model. After that, we compared the platform-specific adoption rates across two scenarios: a random initial adopter and a cross-platform influencer.  
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.60]{adoption_rate_by_number_of_initial_adopters.png}
+    \caption{Global adoption rate by number of initial adopters}
+    \label{fig:adoption_rate_1}
+\end{figure}
+
+In Figure \ref{fig:adoption_rate_1}, we compare the global adoption rate for different numbers of initial adopters, starting at one and going up all the way to 100. We can see a clear relationship between the number of initial adopters and the speed of diffusion. Only one initial adopter gives us a slow adoption rate at the early rounds and a high adoption rate much later than the conditions with many initial adopters. If we look at 50 or 100 initial adopters, we get a rapid early growth and reach a high adoption rate much faster. The curves for 10 or more initial adopters look almost identical, just shifted slightly to the right from 100 initial adopters, so fewer rounds are needed to reach a high adoption rate if we start with more initial adopters. However, given enough rounds, all the conditions reach a high adoption rate, meaning that the final adoption rate does not change much, only the diffusion is faster with more initial adopters.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.60]{adoption_rate_by_platform.png}
+    \caption{Platform adoption rate with one random initial adopter}
+    \label{fig:adoption_rate_2}
+\end{figure}
+
+Figure \ref{fig:adoption_rate_2} shows the adoption rate of every platform individually, with a single random initial adopter. In this case, adoption at the beginning is slow across all three platforms, with only TikTok having any adopters in the first 10 rounds, and the adoption percentage staying under 5\% in the first 30 rounds for each platform, as shown in the inset plot. After around round 50, the spreading process accelerates, with each platform showing almost the same rate of change in adoption, while TikTok had a faster rate earlier on because the initial adopter was a TikTok user. By the end of the 100 simulated rounds, each of the three platforms has a very high adoption rate of 85\%-90\%. This suggests that even though the word started with a single random initial adopter from one single platform, the cross-platform users were able to eventually spread the English word across the entire simulated social-media network.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.60]{adoption_rate_by_platform_influencer.png}
+    \caption{Platform adoption rate with one cross-platform influencer}
+    \label{fig:adoption_rate_3}
+\end{figure}
+
+In Figure \ref{fig:adoption_rate_3} we can see the platform adoption rates when we use a cross-platform influencer as our initial adopter. This influencer is active on all three platforms and also has a higher connection probability than a normal agent. If we compare this scenario with the one from figure \ref{fig:adoption_rate_2}, we can see that the adoption spreads much more quickly, and we reach an adoption rate of almost 100\% at the end of our simulation across all platforms. The curves of the individual platforms are also very similar throughout the simulation, which indicates that the influencer allows the English word to spread evenly through all the different communities at the same time. This tells us that an influencer can reduce the delay in the adoption rate of different platforms and accelerate the diffusion at the same time compared to a random initial adopter.
+
+Overall, we can say that our initial assumption that cross-platform usage accelerates the spread of English words is supported within our simulation. Figure \ref{fig:adoption_rate_1} shows us that having multiple initial adopters in different places in the network gives us a higher adoption rate faster. Figures \ref{fig:adoption_rate_2} and \ref{fig:adoption_rate_3} further show that the positions of the initial adopters matter, since the cross-platform influencer causes a faster and more synchronized adoption across all platforms than a random initial adopter. Altogether, these results suggest that both the number of initial adopters and a node's position in the network influence how quickly an English word spreads through a simulated German social media network.
 
 \section{Discussion}
 
